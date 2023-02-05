@@ -18,25 +18,31 @@ class  AnimalColorSerializer(serializers.ModelSerializer):
         fields=["animal_color"]
         # Earlier created and updated also got serialized, now only animal color is serialized., same eith breed.
 
+class  AnimalImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=AnimalImages
+        fields=['animal_images']
+
 class  AnimalSerializer(serializers.ModelSerializer):
     animal_color=AnimalColorSerializer(many=True)
     animal_breed=AnimalBreedSerializer(many=True)
     animal_category=CategorySerializer()
+    images =AnimalImagesSerializer(many=True)
 
-        # def to_representation(self, instance):
-        #     animal_color=AnimalColorSerializer(many=True)
-        #     animal_breed=AnimalBreedSerializer(many=True)
+    # def to_representation(self, instance):
+    #     animal_color_serializer=AnimalColorSerializer(instance.animal_color,many=True)
+    #     animal_breed_serializer=AnimalBreedSerializer(instance.animal_breed,many=True)
 
-        # payload ={
-        #     'animal_category':instance.animal_category.category_name,
-        #     'animal_likes':instance.animal_likes,
-        #     'animal_name':instance.animal_name,
-        #     'animal_views':instance.animal_views,
-        #     'animal_description':instance.animal_description,
-        #     'animal_color':animal_color_serializer.data,
-        #     'animal_breed':animal_breed_serializer.data,
-        # }
-        # return payload
+    #     payload ={
+    #         'animal_category':instance.animal_category.category_name,
+    #         'animal_likes':instance.animal_likes,
+    #         'animal_name':instance.animal_name,
+    #         'animal_views':instance.animal_views,
+    #         'animal_description':instance.animal_description,
+    #         'animal_color':animal_color_serializer.data,
+    #         'animal_breed':animal_breed_serializer.data,
+    #     }
+    #     return payload
     class Meta:
         model=Animal
         exclude=['updated_at']
@@ -46,7 +52,8 @@ class  AnimalLocationSerializer(serializers.ModelSerializer):
         model=AnimalLocation
         fields="__all__"
 
-class  AnimalImagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=AnimalImages
-        fields="__all__"
+
+class RegisterSerializer(serializers.Serializer):
+    username=serializers.CharField()
+    email=serializers.EmailField()
+    password =serializers.CharField()
